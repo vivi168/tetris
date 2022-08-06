@@ -17,6 +17,7 @@ typedef struct level_t {
 void lvl_init(Level*);
 void lvl_reset(Level*);
 
+int lvl_move_current(Level*, int, int);
 int lvl_add_tetromino(Level*);
 
 void print_board(Level*);

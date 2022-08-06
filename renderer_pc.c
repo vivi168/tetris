@@ -137,7 +137,7 @@ uint32_t rdr_getticks()
 
 void rdr_delay(int frame_start)
 {
-    unsigned int frame_time;
+    uint32_t frame_time;
 
     frame_time = rdr_getticks() - frame_start;
     if (TICKS_PER_FRAME > frame_time) {

@@ -165,13 +165,21 @@ int tetromino_rotate(Tetromino* t, const Level* l)
 {
 	size_t offset = TETROMINO_OFFSET(t->type);
 	size_t rotation_n = TETROMINO_ROTATION(t->type);
+	int fits;
+	
+	size_t prev_rotation = t->rotation;
 
 	t->rotation++;
 
 	if (t->rotation >= rotation_n)
 		t->rotation = 0;
 
-	return tetromino_fits(t, l);
+	fits = tetromino_fits(t, l);
+
+	if (fits > 0)
+		t->rotation = prev_rotation;
+
+	return fits;
 }
 
 int tetromino_fits(const Tetromino* t, const Level* l)
