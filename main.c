@@ -13,18 +13,21 @@ int main(int argc, char** argv)
 
 	printf("Tetris\n");
 
-	tetromino_set(&mino, S_MINO, 2);
-	print_tetromino(&mino);
-	tetromino_rotate(&mino);
-	print_tetromino(&mino);
-	tetromino_rotate(&mino);
-	print_tetromino(&mino);
-	tetromino_rotate(&mino);
-	print_tetromino(&mino);
-
-	add_tetromino(&level, &mino);
-
 	lvl_init(&level);
+	print_board(&level);
+
+	tetromino_set(&mino, S_MINO, &level);
+	print_tetromino(&mino);
+	tetromino_rotate(&mino, &level);
+	print_tetromino(&mino);
+	tetromino_rotate(&mino, &level);
+	print_tetromino(&mino);
+	tetromino_rotate(&mino, &level);
+	print_tetromino(&mino);
+
+
+	//add_tetromino(&level, &mino);
+
 	print_board(&level);
 
 	return 0;

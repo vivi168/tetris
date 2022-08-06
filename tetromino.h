@@ -24,10 +24,14 @@ typedef struct tetromino_t {
 	size_t x, y;
 } Tetromino;
 
-void tetromino_set(Tetromino* t, size_t type, size_t rotation);
-void tetromino_rotate(Tetromino* t);
-uint8_t** tetromino_data(Tetromino* t, uint8_t** data);
+typedef struct level_t Level;
 
-void print_tetromino(Tetromino* t);
+int tetromino_set(Tetromino* t, size_t type, const Level* l);
+int tetromino_rotate(Tetromino* t, const Level* l);
+
+int tetromino_fits(const Tetromino* t, const Level* l);
+void tetromino_data(const Tetromino* t, uint8_t** data);
+
+void print_tetromino(const Tetromino* t);
 
 #endif

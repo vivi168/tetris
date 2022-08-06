@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "tetromino.h"
+#include "level.h"
 
 static const uint8_t TETROMINOS_DEF[MINO_DEF_N][MINO_DEF_SIZ] =
 {
@@ -145,22 +146,22 @@ static const uint8_t TETROMINOS[MINO_N][MINO_SIZ][MINO_SIZ] =
 #define TETROMINO_OFFSET(type) ((TETROMINOS_DEF)[type][0])
 #define TETROMINO_ROTATION(type) ((TETROMINOS_DEF)[type][1])
 
-void tetromino_set(Tetromino* t, size_t type, size_t rot)
+#define START_X 4
+
+int tetromino_set(Tetromino* t, size_t type, const Level* l)
 {
 	size_t offset = TETROMINO_OFFSET(type);
-	size_t rotation = TETROMINO_ROTATION(type);
-
-	if (rot >= rotation)
-		rot = 0;
 
 	t->type = type;
-	t->rotation = rot;
+	t->rotation = 0;
 
-	t->x = 0;
+	t->x = START_X;
 	t->y = 0;
+
+	return tetromino_fits(t, l);
 }
 
-void tetromino_rotate(Tetromino* t)
+int tetromino_rotate(Tetromino* t, const Level* l)
 {
 	size_t offset = TETROMINO_OFFSET(t->type);
 	size_t rotation_n = TETROMINO_ROTATION(t->type);
@@ -169,18 +170,41 @@ void tetromino_rotate(Tetromino* t)
 
 	if (t->rotation >= rotation_n)
 		t->rotation = 0;
+
+	return tetromino_fits(t, l);
 }
 
-uint8_t** tetromino_data(Tetromino* t, uint8_t** data)
+int tetromino_fits(const Tetromino* t, const Level* l)
+{
+	uint8_t data[4][4];
+	size_t x = t->x;
+	size_t y = t->y;
+
+	tetromino_data(t, data);
+
+	for (size_t i = 0; i < MINO_SIZ; i++) {
+		for (size_t j = 0; j < MINO_SIZ; j++) {
+			if (data[i][j] > 0 && l->board[i + y][j + x] > 0) {
+				printf("it does not fit !\n");
+				return 0;
+
+			}
+		}
+	}
+
+	printf("it fits !\n");
+
+	return 1;
+}
+
+void tetromino_data(const Tetromino* t, uint8_t** data)
 {
 	size_t offset = TETROMINO_OFFSET(t->type);
-	
+
 	memcpy(data, TETROMINOS[offset + t->rotation], MINO_SIZ * MINO_SIZ);
-	
-	return data;
 }
 
-void print_tetromino(Tetromino* t)
+void print_tetromino(const Tetromino* t)
 {
 	size_t offset = TETROMINO_OFFSET(t->type);
 

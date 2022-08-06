@@ -45,21 +45,23 @@ void print_board(Level* level)
 	}
 }
 
-int add_tetromino(Level* level, Tetromino* tetromino)
-{
-	uint8_t data[4][4];
-	uint8_t** data_ptr;
-
-	data_ptr = tetromino_data(tetromino, data);
-
-	printf("issou\n");
-	for (size_t i = 0; i < MINO_SIZ; i++) {
-		for (size_t j = 0; j < MINO_SIZ; j++) {
-			printf("%d ", data[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-
-	return 0;
-}
+//int add_tetromino(Level* level, Tetromino* tetromino)
+//{
+//	uint8_t data[4][4];
+//
+//	tetromino_data(tetromino, data);
+//
+//	size_t x = tetromino->x;
+//	size_t y = tetromino->y;
+//
+//	printf("issou\n");
+//	for (size_t i = 0; i < MINO_SIZ; i++) {
+//		for (size_t j = 0; j < MINO_SIZ; j++) {
+//
+//			// here check not out of bound
+//			level->board[i + y][j + x] = data[i][j];
+//		}
+//	}
+//
+//	return 0;
+//}
