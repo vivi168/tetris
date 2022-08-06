@@ -154,12 +154,14 @@
     <ClCompile Include="input_pc.c" />
     <ClCompile Include="level.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="random.c" />
     <ClCompile Include="renderer_pc.c" />
     <ClCompile Include="tetromino.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="random.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="tetromino.h" />
   </ItemGroup>

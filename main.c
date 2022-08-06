@@ -37,7 +37,9 @@ void mainloop()
 	Tetromino mino;
 	Tetromino next_mino;
 
-	tetromino_spawn(&mino, J_MINO, &level);
+	uint16_t next = rng_randint(0, 6);
+
+	tetromino_spawn(&mino, next, &level);
 
 	level.current_tetromino = &mino;
 
@@ -53,7 +55,8 @@ void mainloop()
 		if (frame_start > last_fall_tick + FALL_SPEED) {
 			if (lvl_move_current(&level, 0, 1)) {
 				lvl_add_tetromino(&level);
-				tetromino_spawn(&mino, J_MINO, &level);
+				next = rng_randint(0, 6);
+				tetromino_spawn(&mino, next, &level);
 				level.current_tetromino = &mino;
 			}
 
@@ -69,6 +72,8 @@ void mainloop()
 int main(int argc, char** argv)
 {
 	printf("Tetris\n");
+
+	rng_seed(1);
 
 	rdr_init();
 	iptm_init();
