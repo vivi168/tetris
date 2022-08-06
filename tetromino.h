@@ -3,22 +3,31 @@
 
 #include <stdint.h>
 
-#define MINO_S 4
+#define MINO_DEF_N 7
+#define MINO_DEF_SIZ 2
 
-#define IMINO_N 2
-#define OMINO_N 1
-#define JMINO_N 4
-#define LMINO_N 4
-#define SMINO_N 2
-#define TMINO_N 5
-#define ZMINO_N 2
+#define I_MINO 0
+#define O_MINO 1
+#define J_MINO 2
+#define L_MINO 3
+#define S_MINO 4
+#define T_MINO 5
+#define Z_MINO 6
 
-extern const uint8_t I_mino[IMINO_N][4][4];
-extern const uint8_t O_Mino[OMINO_N][4][4];
-extern const uint8_t J_Mino[JMINO_N][4][4];
-extern const uint8_t L_Mino[LMINO_N][4][4];
-extern const uint8_t S_Mino[SMINO_N][4][4];
-extern const uint8_t T_Mino[TMINO_N][4][4];
-extern const uint8_t Z_Mino[ZMINO_N][4][4];
+#define MINO_N 19
+#define MINO_SIZ 4
+
+typedef struct tetromino_t {
+	//uint8_t shape[4][4];
+	size_t type;
+	size_t rotation;
+	size_t x, y;
+} Tetromino;
+
+void tetromino_set(Tetromino* t, size_t type, size_t rotation);
+void tetromino_rotate(Tetromino* t);
+uint8_t** tetromino_data(Tetromino* t, uint8_t** data);
+
+void print_tetromino(Tetromino* t);
 
 #endif

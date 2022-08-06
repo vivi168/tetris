@@ -8,12 +8,6 @@
 #define LVL_W 12
 #define LVL_H 18
 
-typedef struct tetromino_t {
-	uint8_t shape[4][4];
-	size_t x, y;
-} Tetromino;
-
-
 typedef struct level_t {
 	uint8_t board[LVL_H][LVL_W];
 	Tetromino* next_minos;
@@ -21,6 +15,8 @@ typedef struct level_t {
 
 void lvl_init(Level*);
 void lvl_reset(Level*);
+
+int add_tetromino(Level*, Tetromino*);
 
 void print_board(Level*);
 
