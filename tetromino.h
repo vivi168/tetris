@@ -26,7 +26,7 @@ typedef struct tetromino_t {
 
 typedef struct level_t Level;
 
-int tetromino_set(Tetromino* t, size_t type, const Level* l);
+int tetromino_spawn(Tetromino* t, size_t type, const Level* l);
 int tetromino_rotate(Tetromino* t, const Level* l);
 
 int tetromino_fits(const Tetromino* t, const Level* l);

@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 	lvl_init(&level);
 	print_board(&level);
 
-	tetromino_set(&mino, S_MINO, &level);
+	tetromino_spawn(&mino, Z_MINO, &level);
 	print_tetromino(&mino);
 	tetromino_rotate(&mino, &level);
 	print_tetromino(&mino);
@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 	print_tetromino(&mino);
 
 
-	//add_tetromino(&level, &mino);
+	lvl_add_tetromino(&level, &mino);
 
 	print_board(&level);
 
