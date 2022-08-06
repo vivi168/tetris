@@ -13,7 +13,20 @@ SDL_Window* sdl_window;
 SDL_Renderer* sdl_renderer;
 
 void create_window();
-void render_level(Level*);
+void render_level(const Level*);
+void render_current_tetromino(const Tetromino*);
+void render_square(int x, int y, int c);
+
+static const SDL_Color Colors[8] = {
+    { 0x33, 0x33, 0x33 },
+    { 255, 0, 0, 1},
+    { 0, 255, 0, 1},
+    { 0, 0, 255, 1},
+    { 255, 255, 0, 1},
+    { 0, 255, 255, 1},
+    { 128, 0, 128, 1},
+    { 255, 0, 255, 1},
+};
 
 void rdr_init()
 {
@@ -31,7 +44,8 @@ void create_window()
 {
     printf("create window\n");
 
-    const char* title = "Sokoban";
+    const char* title = "Tetris";
+    // TODO: True size is for board + next tetromino + score board
     const int width = LVL_W * TILE_SIZE;
     const int height = LVL_H * TILE_SIZE;
 
@@ -50,7 +64,7 @@ void create_window()
     }
 }
 
-void rdr_render(Level* level)
+void rdr_render(const Level* level)
 {
     SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(sdl_renderer);
@@ -60,9 +74,50 @@ void rdr_render(Level* level)
     SDL_RenderPresent(sdl_renderer);
 }
 
-void render_level(Level* level)
+void render_level(const Level* level)
 {
-    
+    for (size_t i = 0; i < LVL_H; i++) {
+        for (size_t j = 0; j < LVL_W; j++) {
+            if (level->board[i][j] > 0) {
+                // TODO: don't draw padding/spawning area
+                render_square(j, i, level->board[i][j]);
+            }
+        }
+    }
+
+    render_current_tetromino(level->current_tetromino);
+}
+
+void render_current_tetromino(const Tetromino* t)
+{
+    uint8_t data[4][4];
+
+    tetromino_data(t, data);
+
+    for (size_t i = 0; i < MINO_SIZ; i++) {
+        for (size_t j = 0; j < MINO_SIZ; j++) {
+            if (data[i][j] > 0) {
+                render_square(j + t->x, i + t->y, data[i][j]);
+            }
+        }
+    }
+}
+
+void render_square(int x, int y, int c)
+{
+    int hoff = 0; // offset level draw area on screen
+    int voff = 0;
+
+    SDL_Rect dst = { TILE_SIZE * x + hoff,
+                     TILE_SIZE * y + voff,
+                     TILE_SIZE, TILE_SIZE };
+
+    SDL_Color color = Colors[c - 1];
+
+    SDL_SetRenderDrawColor(sdl_renderer, 
+        color.r, color.g, color.b,
+        SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(sdl_renderer, &dst);
 }
 
 void rdr_cleanup()
@@ -75,7 +130,7 @@ void rdr_cleanup()
     SDL_Quit();
 }
 
-unsigned int rdr_getticks()
+uint32_t rdr_getticks()
 {
     return SDL_GetTicks();
 }

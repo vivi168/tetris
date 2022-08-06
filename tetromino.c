@@ -146,7 +146,7 @@ static const uint8_t TETROMINOS[MINO_N][MINO_SIZ][MINO_SIZ] =
 #define TETROMINO_OFFSET(type) ((TETROMINOS_DEF)[type][0])
 #define TETROMINO_ROTATION(type) ((TETROMINOS_DEF)[type][1])
 
-#define START_X 4
+#define START_X 6 // 4 + 2 (padding)
 
 int tetromino_spawn(Tetromino* t, size_t type, const Level* l)
 {
