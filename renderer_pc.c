@@ -20,8 +20,6 @@ void render_level(const Level*);
 void render_current_tetromino(const Tetromino*);
 void render_square(int x, int y, int c);
 
-// TODO: define better colors
-// Draw square borders, or better yet, textured square ?
 static const SDL_Color Colors[8] = {
     { 0x9E, 0x9E, 0x9E }, //   WALL gray    #9E9E9E
     { 0x00, 0xBC, 0xD4 }, // I_MINO cyan    #00BCD4
@@ -95,7 +93,6 @@ void render_level(const Level* level)
     for (size_t i = 0; i < LVL_H; i++) {
         for (size_t j = 0; j < LVL_W; j++) {
             if (level->board[i][j] > 0) {
-                // TODO: don't draw padding/spawning area
                 render_square(j, i, level->board[i][j]);
             }
         }
