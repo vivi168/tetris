@@ -27,11 +27,17 @@ void iptm_update()
                 case SDLK_LEFT:
                     input_manager.new_keystate |= (1 << KEY_LEFT);
                     break;
-                case SDLK_r:
-                    input_manager.new_keystate |= (1 << KEY_RESTART);
+                case SDLK_w:
+                    input_manager.new_keystate |= (1 << KEY_TRIANGLE);
                     break;
-                case SDLK_ESCAPE:
-                    input_manager.new_keystate |= (1 << KEY_QUIT);
+                case SDLK_a:
+                    input_manager.new_keystate |= (1 << KEY_SQUARE);
+                    break;
+                case SDLK_s:
+                    input_manager.new_keystate |= (1 << KEY_CROSS);
+                    break;
+                case SDLK_d:
+                    input_manager.new_keystate |= (1 << KEY_CIRCLE);
                     break;
             }
             break;
@@ -49,11 +55,17 @@ void iptm_update()
                 case SDLK_LEFT:
                     input_manager.new_keystate &= ~(1 << KEY_LEFT);
                     break;
-                case SDLK_r:
-                    input_manager.new_keystate &= ~(1 << KEY_RESTART);
+                case SDLK_w:
+                    input_manager.new_keystate &= ~(1 << KEY_TRIANGLE);
                     break;
-                case SDLK_ESCAPE:
-                    input_manager.new_keystate &= ~(1 << KEY_QUIT);
+                case SDLK_a:
+                    input_manager.new_keystate &= ~(1 << KEY_SQUARE);
+                    break;
+                case SDLK_s:
+                    input_manager.new_keystate &= ~(1 << KEY_CROSS);
+                    break;
+                case SDLK_d:
+                    input_manager.new_keystate &= ~(1 << KEY_CIRCLE);
                     break;
             }
             break;

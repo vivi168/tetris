@@ -12,12 +12,12 @@ Level level;
 
 void process_input()
 {
-    if (iptm_quit_requested() || iptm_is_pressed(KEY_QUIT)) {
+    if (iptm_quit_requested() || iptm_is_pressed(KEY_TRIANGLE)) {
         printf("[INFO]: quit requested\n");
         quit = TRUE;
     }
 
-	if (iptm_is_pressed(KEY_DOWN)) {
+	if (iptm_is_pressed(KEY_CIRCLE)) {
 		tetromino_rotate(level.current_tetromino, &level);
 	}
 	else if (iptm_is_pressed(KEY_LEFT)) {

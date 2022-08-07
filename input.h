@@ -4,13 +4,15 @@
 #define TRUE 1
 #define FALSE 0
 
-// kept aligned with PSX PAD specs
-#define KEY_UP      4
-#define KEY_RIGHT   5
-#define KEY_DOWN    6
-#define KEY_LEFT    7
-#define KEY_RESTART 12   // triangle 1 << 12
-#define KEY_QUIT    15   // square   1 << 15
+// keep aligned with PSX PAD specs
+#define KEY_UP        4
+#define KEY_RIGHT     5
+#define KEY_DOWN      6
+#define KEY_LEFT      7
+#define KEY_TRIANGLE 12
+#define KEY_CIRCLE   13
+#define KEY_CROSS    14
+#define KEY_SQUARE   15
 
 typedef struct input_manager_t {
     int quit;
