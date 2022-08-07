@@ -4,9 +4,9 @@
 
 #include "level.h"
 
-#define PADDING_TOP 3
 #define PADDING_BOT 2
 #define PADDING_SIDE 3
+
 #define LINE_LEN 10
 
 #define SPEED_CEIL 1000
@@ -17,10 +17,6 @@ static const uint8_t BLANK_LINE[LVL_W] = {
 };
 
 static const uint8_t INITIAL_BOARD[LVL_H][LVL_W] = {
-	// spawn area
-	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
 	// playing field
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
@@ -115,7 +111,7 @@ int lvl_flag_lines(Level* level)
 	int flagged = 0;
 	int start = -1;
 
-	for (size_t i = PADDING_TOP; i < LVL_H - PADDING_BOT; i++) {
+	for (size_t i = 0; i < LVL_H - PADDING_BOT; i++) {
 		line_sum = 0;
 
 		for (size_t j = PADDING_SIDE; j < LVL_W - PADDING_SIDE; j++) {
@@ -124,7 +120,6 @@ int lvl_flag_lines(Level* level)
 		}
 
 		if (line_sum == LINE_LEN) {
-			printf("LINE COMPLETED ! %zd\n", i);
 			level->board[i][0] = -1;
 
 			flagged++;
@@ -135,7 +130,16 @@ int lvl_flag_lines(Level* level)
 	if (flagged > 0) {
 		clear_lines(level, flagged, start);
 
-		level->score += flagged * (SPEED_CEIL - level->speed);
+		int base_score = 50;
+
+		if (flagged > 3)
+			base_score = 1500;
+		else if (flagged > 2)
+			base_score = 500;
+		else if (flagged > 1)
+			base_score = 150;
+
+		level->score += base_score;
 		printf("score: %d\n", level->score);
 	}
 

@@ -84,8 +84,6 @@ int main(int argc, char** argv)
 
 	lvl_init(&level);
 
-	print_board(&level);
-
 	mainloop();
 
 	rdr_cleanup();

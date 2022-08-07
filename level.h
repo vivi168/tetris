@@ -6,7 +6,7 @@
 #include "tetromino.h"
 
 #define LVL_W 16
-#define LVL_H 23
+#define LVL_H 20
 
 typedef struct level_t {
 	int8_t board[LVL_H][LVL_W];
