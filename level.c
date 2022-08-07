@@ -4,6 +4,11 @@
 
 #include "level.h"
 
+#define PADDING_TOP 3
+#define PADDING_BOT 2
+#define PADDING_SIDE 2
+#define LINE_LEN 12
+
 static const uint8_t INITIAL_BOARD[LVL_H][LVL_W] = {
 	// spawn area
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -43,11 +48,11 @@ void lvl_reset(Level* level)
 	memcpy(level->board, INITIAL_BOARD, LVL_H * LVL_W);
 }
 
-void print_board(Level* level)
+void print_board(const Level* level)
 {
 	for (size_t i = 0; i < LVL_H; i++) {
 		for (size_t j = 0; j < LVL_W; j++) {
-			printf("%d ", level->board[i][j]);
+			printf("%3d ", level->board[i][j]);
 		}
 		printf("\n");
 	}
@@ -69,11 +74,6 @@ int lvl_move_current(const Level* l, int x, int y)
 		l->current_tetromino->y = prev_y;
 	}
 
-	printf("%d, %d\n",
-		l->current_tetromino->x,
-		l->current_tetromino->y
-	);
-
 	return fits;
 }
 
@@ -86,7 +86,6 @@ int lvl_add_tetromino(Level* level)
 	size_t x = level->current_tetromino->x;
 	size_t y = level->current_tetromino->y;
 
-	printf("issou\n");
 	for (size_t i = 0; i < MINO_SIZ; i++) {
 		for (size_t j = 0; j < MINO_SIZ; j++) {
 
@@ -96,4 +95,25 @@ int lvl_add_tetromino(Level* level)
 	}
 
 	return 0;
+}
+
+void lvl_flag_lines(Level* level)
+{
+	int line_sum;
+
+	for (size_t i = PADDING_TOP; i < LVL_H - PADDING_BOT; i++) {
+		line_sum = 0;
+
+		for (size_t j = PADDING_SIDE; j < LVL_W - PADDING_SIDE; j++) {
+			if (level->board[i][j] > 0)
+				line_sum++;
+		}
+
+		if (line_sum == LINE_LEN) {
+			printf("LINE COMPLETED ! %zd\n", i);
+			level->board[i][0] = -1;
+		}
+	}
+
+	print_board(level);
 }

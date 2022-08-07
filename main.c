@@ -5,6 +5,7 @@
 #include "level.h"
 #include "renderer.h"
 #include "tetromino.h"
+#include "random.h"
 
 int quit;
 Level level;
@@ -55,6 +56,8 @@ void mainloop()
 		if (frame_start > last_fall_tick + FALL_SPEED) {
 			if (lvl_move_current(&level, 0, 1)) {
 				lvl_add_tetromino(&level);
+				lvl_flag_lines(&level);
+
 				next = rng_randint(0, 6);
 				tetromino_spawn(&mino, next, &level);
 				level.current_tetromino = &mino;
@@ -79,6 +82,8 @@ int main(int argc, char** argv)
 	iptm_init();
 
 	lvl_init(&level);
+
+	print_board(&level);
 
 	mainloop();
 

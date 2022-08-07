@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "tetromino.h"
@@ -193,19 +194,16 @@ int tetromino_fits(const Tetromino* t, const Level* l)
 	for (size_t i = 0; i < MINO_SIZ; i++) {
 		for (size_t j = 0; j < MINO_SIZ; j++) {
 			if (data[i][j] > 0 && l->board[i + y][j + x] > 0) {
-				printf("it does not fit !\n");
 				return l->board[i + y][j + x];
 
 			}
 		}
 	}
-
-	printf("it fits !\n");
-
+	
 	return 0;
 }
 
-void tetromino_data(const Tetromino* t, uint8_t** data)
+void tetromino_data(const Tetromino* t, uint8_t data[4][4])
 {
 	size_t offset = TETROMINO_OFFSET(t->type);
 

@@ -30,7 +30,7 @@ int tetromino_spawn(Tetromino* t, size_t type, const Level* l);
 int tetromino_rotate(Tetromino* t, const Level* l);
 
 int tetromino_fits(const Tetromino* t, const Level* l);
-void tetromino_data(const Tetromino* t, uint8_t** data);
+void tetromino_data(const Tetromino* t, uint8_t data[4][4]);
 
 void print_tetromino(const Tetromino* t);
 

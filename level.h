@@ -9,7 +9,7 @@
 #define LVL_H 23
 
 typedef struct level_t {
-	uint8_t board[LVL_H][LVL_W];
+	int8_t board[LVL_H][LVL_W];
 	Tetromino* current_tetromino;
 	Tetromino* next_tetromino;
 } Level;
@@ -17,9 +17,11 @@ typedef struct level_t {
 void lvl_init(Level*);
 void lvl_reset(Level*);
 
-int lvl_move_current(Level*, int, int);
+int lvl_move_current(const Level*, int, int);
 int lvl_add_tetromino(Level*);
 
-void print_board(Level*);
+void lvl_flag_lines(Level*);
+
+void print_board(const Level*);
 
 #endif
