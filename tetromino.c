@@ -149,9 +149,9 @@ static const uint8_t TETROMINOS[MINO_N][MINO_SIZ][MINO_SIZ] =
 
 #define START_X 6 // 4 + 2 (padding)
 
-int tetromino_spawn(Tetromino* t, size_t type, const Level* l)
+int tetromino_spawn(Tetromino* t, int type, const Level* l)
 {
-	size_t offset = TETROMINO_OFFSET(type);
+	int offset = TETROMINO_OFFSET(type);
 
 	t->type = type;
 	t->rotation = 0;
@@ -162,18 +162,20 @@ int tetromino_spawn(Tetromino* t, size_t type, const Level* l)
 	return tetromino_fits(t, l);
 }
 
-int tetromino_rotate(Tetromino* t, const Level* l)
+int tetromino_rotate(Tetromino* t, const Level* l, int direction)
 {
-	size_t offset = TETROMINO_OFFSET(t->type);
-	size_t rotation_n = TETROMINO_ROTATION(t->type);
+	int offset = TETROMINO_OFFSET(t->type);
+	int rotation_n = TETROMINO_ROTATION(t->type);
 	int fits;
 	
-	size_t prev_rotation = t->rotation;
+	int prev_rotation = t->rotation;
 
-	t->rotation++;
+	t->rotation += direction;
 
 	if (t->rotation >= rotation_n)
 		t->rotation = 0;
+	else if (t->rotation < 0)
+		t->rotation = rotation_n - 1;
 
 	fits = tetromino_fits(t, l);
 
@@ -205,14 +207,14 @@ int tetromino_fits(const Tetromino* t, const Level* l)
 
 void tetromino_data(const Tetromino* t, uint8_t data[4][4])
 {
-	size_t offset = TETROMINO_OFFSET(t->type);
+	int offset = TETROMINO_OFFSET(t->type);
 
 	memcpy(data, TETROMINOS[offset + t->rotation], MINO_SIZ * MINO_SIZ);
 }
 
 void print_tetromino(const Tetromino* t)
 {
-	size_t offset = TETROMINO_OFFSET(t->type);
+	int offset = TETROMINO_OFFSET(t->type);
 
 	for (size_t i = 0; i < MINO_SIZ; i++) {
 		for (size_t j = 0; j < MINO_SIZ; j++) {

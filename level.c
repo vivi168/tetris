@@ -69,8 +69,8 @@ void print_board(const Level* level)
 int lvl_move_current(const Level* l, int x, int y)
 {
 	int fits;
-	size_t prev_x = l->current_tetromino->x;
-	size_t prev_y = l->current_tetromino->y;
+	int prev_x = l->current_tetromino->x;
+	int prev_y = l->current_tetromino->y;
 
 	l->current_tetromino->x += x;
 	l->current_tetromino->y += y;
@@ -91,8 +91,8 @@ int lvl_add_tetromino(Level* level)
 
 	tetromino_data(level->current_tetromino, data);
 
-	size_t x = level->current_tetromino->x;
-	size_t y = level->current_tetromino->y;
+	int x = level->current_tetromino->x;
+	int y = level->current_tetromino->y;
 
 	for (size_t i = 0; i < MINO_SIZ; i++) {
 		for (size_t j = 0; j < MINO_SIZ; j++) {

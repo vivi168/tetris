@@ -18,7 +18,10 @@ void process_input()
     }
 
 	if (iptm_is_pressed(KEY_CIRCLE)) {
-		tetromino_rotate(level.current_tetromino, &level);
+		tetromino_rotate(level.current_tetromino, &level, CLOCKWISE);
+	}
+	else if (iptm_is_pressed(KEY_CROSS)) {
+		tetromino_rotate(level.current_tetromino, &level, COUNTER_CLOCKWISE);
 	}
 	else if (iptm_is_pressed(KEY_LEFT)) {
 		lvl_move_current(&level, -1, 0);

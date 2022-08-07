@@ -17,17 +17,19 @@
 #define MINO_N 19
 #define MINO_SIZ 4
 
+#define CLOCKWISE 1
+#define COUNTER_CLOCKWISE (-1)
+
 typedef struct tetromino_t {
-	//uint8_t shape[4][4];
-	size_t type;
-	size_t rotation;
-	size_t x, y;
+	int type;
+	int rotation;
+	int x, y;
 } Tetromino;
 
 typedef struct level_t Level;
 
-int tetromino_spawn(Tetromino* t, size_t type, const Level* l);
-int tetromino_rotate(Tetromino* t, const Level* l);
+int tetromino_spawn(Tetromino* t, int type, const Level* l);
+int tetromino_rotate(Tetromino* t, const Level* l, int direction);
 
 int tetromino_fits(const Tetromino* t, const Level* l);
 void tetromino_data(const Tetromino* t, uint8_t data[4][4]);
