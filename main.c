@@ -55,7 +55,10 @@ void mainloop()
 				lvl_add_tetromino(&level);
 
 				next = rng_randint(0, 6);
-				tetromino_spawn(&mino, next, &level);
+				if (tetromino_spawn(&mino, next, &level) > 0) {
+					quit = 1;
+				}
+
 				level.current_tetromino = &mino;
 			}
 

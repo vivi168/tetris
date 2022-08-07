@@ -17,15 +17,17 @@ void render_level(const Level*);
 void render_current_tetromino(const Tetromino*);
 void render_square(int x, int y, int c);
 
+// TODO: define better colors
+// Draw square borders, or better yet, textured square ?
 static const SDL_Color Colors[8] = {
-    { 0x33, 0x33, 0x33 },
-    { 255, 0, 0, 1},
-    { 0, 255, 0, 1},
-    { 0, 0, 255, 1},
-    { 255, 255, 0, 1},
-    { 0, 255, 255, 1},
-    { 128, 0, 128, 1},
-    { 255, 0, 255, 1},
+    { 0xB7, 0xB7, 0xB7 },
+    { 0xE0, 0x66, 0x66 },
+    { 0xE6, 0x91, 0x38 },
+    { 0xF1, 0xC2, 0x32 },
+    { 0x6A, 0xA8, 0x4F },
+    { 0x6D, 0x9E, 0xEB },
+    { 0x3C, 0x78, 0xD8 },
+    { 0xA6, 0x4D, 0x79 },
 };
 
 void rdr_init()

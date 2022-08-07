@@ -9,6 +9,7 @@
 #define PADDING_SIDE 3
 #define LINE_LEN 10
 
+#define SPEED_CEIL 1000
 #define FALL_SPEED 300
 
 static const uint8_t BLANK_LINE[LVL_W] = {
@@ -131,8 +132,12 @@ int lvl_flag_lines(Level* level)
 		}
 	}
 
-	if (flagged > 0)
+	if (flagged > 0) {
 		clear_lines(level, flagged, start);
+
+		level->score += flagged * (SPEED_CEIL - level->speed);
+		printf("score: %d\n", level->score);
+	}
 
 	return flagged;
 }
