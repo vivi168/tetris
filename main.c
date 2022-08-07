@@ -53,12 +53,13 @@ void mainloop()
 		if (frame_start > last_fall_tick + level.speed) {
 			if (lvl_move_current(&level, 0, 1)) {
 				lvl_add_tetromino(&level);
-				lvl_flag_lines(&level);
 
 				next = rng_randint(0, 6);
 				tetromino_spawn(&mino, next, &level);
 				level.current_tetromino = &mino;
 			}
+
+			lvl_flag_lines(&level);
 
 			last_fall_tick = frame_start;
 		}

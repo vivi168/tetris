@@ -108,7 +108,7 @@ int lvl_add_tetromino(Level* level)
 	return 0;
 }
 
-void lvl_flag_lines(Level* level)
+int lvl_flag_lines(Level* level)
 {
 	int line_sum;
 	int flagged = 0;
@@ -133,6 +133,8 @@ void lvl_flag_lines(Level* level)
 
 	if (flagged > 0)
 		clear_lines(level, flagged, start);
+
+	return flagged;
 }
 
 int clear_lines(Level* level, int line_count, int start)

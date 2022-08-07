@@ -23,7 +23,7 @@ void lvl_reset(Level*);
 int lvl_move_current(const Level*, int, int);
 int lvl_add_tetromino(Level*);
 
-void lvl_flag_lines(Level*);
+int lvl_flag_lines(Level*);
 
 void print_board(const Level*);
 
