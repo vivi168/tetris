@@ -9,6 +9,9 @@
 #define FPS 144
 #define TICKS_PER_FRAME (1000 / FPS)
 
+#define BORDER_WIDTH 4
+#define INNER_OFFSET (BORDER_WIDTH / 2)
+
 SDL_Window* sdl_window;
 SDL_Renderer* sdl_renderer;
 
@@ -20,14 +23,25 @@ void render_square(int x, int y, int c);
 // TODO: define better colors
 // Draw square borders, or better yet, textured square ?
 static const SDL_Color Colors[8] = {
-    { 0xB7, 0xB7, 0xB7 },
-    { 0xE0, 0x66, 0x66 },
-    { 0xE6, 0x91, 0x38 },
-    { 0xF1, 0xC2, 0x32 },
-    { 0x6A, 0xA8, 0x4F },
-    { 0x6D, 0x9E, 0xEB },
-    { 0x3C, 0x78, 0xD8 },
-    { 0xA6, 0x4D, 0x79 },
+    { 0x9E, 0x9E, 0x9E }, //   WALL gray    #9E9E9E
+    { 0x00, 0xBC, 0xD4 }, // I_MINO cyan    #00BCD4
+    { 0xFF, 0xEB, 0x3B }, // O_MINO yellow  #FFEB3B
+    { 0x3F, 0x51, 0xB5 }, // J_MINO blue    #3F51B5
+    { 0xFF, 0x98, 0x00 }, // L_MINO orange  #FF9800
+    { 0x4C, 0xAF, 0x50 }, // S_MINO green   #4CAF50
+    { 0x9C, 0x27, 0xB0 }, // T_MINO magenta #9C27B0
+    { 0xF4, 0x43, 0x36 }, // Z_MINO red     #F44336
+};
+
+static const SDL_Color BorderColors[8] = {
+    { 0x42, 0x42, 0x42 }, //   WALL gray    #424242
+    { 0x00, 0x60, 0x64 }, // I_MINO cyan    #006064
+    { 0xF5, 0x7F, 0x17 }, // O_MINO yellow  #F57F17
+    { 0x1A, 0x23, 0x7E }, // J_MINO blue    #1A237E
+    { 0xE6, 0x51, 0x00 }, // L_MINO orange  #E65100
+    { 0x1B, 0x5E, 0x20 }, // S_MINO green   #1B5E20
+    { 0x4A, 0x14, 0x8C }, // T_MINO magenta #4A148C
+    { 0xB7, 0x1C, 0x1C }, // Z_MINO red     #B71C1C
 };
 
 void rdr_init()
@@ -109,14 +123,27 @@ void render_square(int x, int y, int c)
 {
     int hoff = 0; // offset level draw area on screen
     int voff = 0;
+    int inner_size = TILE_SIZE - BORDER_WIDTH;
 
+    // Outer
     SDL_Rect dst = { TILE_SIZE * x + hoff,
                      TILE_SIZE * y + voff,
                      TILE_SIZE, TILE_SIZE };
 
-    SDL_Color color = Colors[c - 1];
+    SDL_Color color = BorderColors[c - 1];
 
     SDL_SetRenderDrawColor(sdl_renderer, 
+        color.r, color.g, color.b,
+        SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(sdl_renderer, &dst);
+
+    // Inner
+    dst = (SDL_Rect){ TILE_SIZE * x + hoff + INNER_OFFSET,
+                      TILE_SIZE * y + voff + INNER_OFFSET,
+                      inner_size, inner_size };
+
+    color = Colors[c - 1];
+    SDL_SetRenderDrawColor(sdl_renderer,
         color.r, color.g, color.b,
         SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(sdl_renderer, &dst);
