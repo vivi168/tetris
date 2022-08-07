@@ -156,4 +156,6 @@ int clear_lines(Level* level, int line_count, int start)
 	for (size_t i = 0; i < line_count; i++) {
 		memcpy(level->board[i], BLANK_LINE, LVL_W);
 	}
+
+	return line_count;
 }
