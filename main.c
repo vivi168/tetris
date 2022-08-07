@@ -17,10 +17,10 @@ void process_input()
         quit = TRUE;
     }
 
-	if (iptm_is_pressed(KEY_CIRCLE)) {
+	if (iptm_is_pressed(KEY_CIRCLE) || iptm_is_pressed(KEY_DOWN)) {
 		tetromino_rotate(level.current_tetromino, &level, CLOCKWISE);
 	}
-	else if (iptm_is_pressed(KEY_CROSS)) {
+	else if (iptm_is_pressed(KEY_CROSS) || iptm_is_pressed(KEY_UP)) {
 		tetromino_rotate(level.current_tetromino, &level, COUNTER_CLOCKWISE);
 	}
 	else if (iptm_is_pressed(KEY_LEFT)) {
