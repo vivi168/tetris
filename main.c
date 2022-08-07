@@ -10,9 +10,6 @@
 int quit;
 Level level;
 
-// should be level props -> level.difficulty
-#define FALL_SPEED 500
-
 void process_input()
 {
     if (iptm_quit_requested() || iptm_is_pressed(KEY_QUIT)) {
@@ -53,7 +50,7 @@ void mainloop()
 		iptm_poll_events();
 		process_input();
 
-		if (frame_start > last_fall_tick + FALL_SPEED) {
+		if (frame_start > last_fall_tick + level.speed) {
 			if (lvl_move_current(&level, 0, 1)) {
 				lvl_add_tetromino(&level);
 				lvl_flag_lines(&level);

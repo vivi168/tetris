@@ -10,6 +10,9 @@
 
 typedef struct level_t {
 	int8_t board[LVL_H][LVL_W];
+	uint32_t score;
+	uint32_t speed;
+
 	Tetromino* current_tetromino;
 	Tetromino* next_tetromino;
 } Level;

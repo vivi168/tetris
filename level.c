@@ -6,14 +6,20 @@
 
 #define PADDING_TOP 3
 #define PADDING_BOT 2
-#define PADDING_SIDE 2
-#define LINE_LEN 12
+#define PADDING_SIDE 3
+#define LINE_LEN 10
+
+#define FALL_SPEED 300
+
+static const uint8_t BLANK_LINE[LVL_W] = {
+	0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0
+};
 
 static const uint8_t INITIAL_BOARD[LVL_H][LVL_W] = {
 	// spawn area
-	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
 	// playing field
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
@@ -38,8 +44,13 @@ static const uint8_t INITIAL_BOARD[LVL_H][LVL_W] = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 
+int clear_lines(Level*, int, int);
+
 void lvl_init(Level* level)
 {
+	level->score = 0;
+	level->speed = FALL_SPEED;
+
 	lvl_reset(level);
 }
 
@@ -100,6 +111,8 @@ int lvl_add_tetromino(Level* level)
 void lvl_flag_lines(Level* level)
 {
 	int line_sum;
+	int flagged = 0;
+	int start = -1;
 
 	for (size_t i = PADDING_TOP; i < LVL_H - PADDING_BOT; i++) {
 		line_sum = 0;
@@ -112,8 +125,24 @@ void lvl_flag_lines(Level* level)
 		if (line_sum == LINE_LEN) {
 			printf("LINE COMPLETED ! %zd\n", i);
 			level->board[i][0] = -1;
+
+			flagged++;
+			if (start < 0) start = i;
 		}
 	}
 
-	print_board(level);
+	if (flagged > 0)
+		clear_lines(level, flagged, start);
+}
+
+int clear_lines(Level* level, int line_count, int start)
+{
+	int copy_count = LVL_W * start;
+
+	memcpy(level->board[line_count], level->board[0], copy_count);
+
+	// clear beginning of board
+	for (size_t i = 0; i < line_count; i++) {
+		memcpy(level->board[i], BLANK_LINE, LVL_W);
+	}
 }
