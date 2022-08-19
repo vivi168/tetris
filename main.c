@@ -38,20 +38,20 @@ void process_input(uint32_t frame_start)
 	}
 
 	if (inpmgr_is_pressed(KEY_LEFT)) {
-		lvl_move_current(&level, -1, 0);
+		lvl_move_current(&level, DIR_LEFT, 0);
 		last_moved = frame_start;
 	}
 	else if (inpmgr_is_pressed(KEY_RIGHT)) {
-		lvl_move_current(&level, 1, 0);
+		lvl_move_current(&level, DIR_RIGHT, 0);
 		last_moved = frame_start;
 	}
 
 	if (inpmgr_is_held(KEY_LEFT) && (frame_start > last_moved + MOVE_SPEED)) {
-		lvl_move_current(&level, -1, 0);
+		lvl_move_current(&level, DIR_LEFT, 0);
 		last_moved = frame_start;
 	}
 	else if (inpmgr_is_held(KEY_RIGHT) && (frame_start > last_moved + MOVE_SPEED)) {
-		lvl_move_current(&level, 1, 0);
+		lvl_move_current(&level, DIR_RIGHT, 0);
 		last_moved = frame_start;
 	}
 }
@@ -63,7 +63,7 @@ void mainloop()
 	Tetromino mino;
 	Tetromino next_mino;
 
-	uint16_t next = rng_randint(0, 6);
+	uint16_t next = rng_randint(0, MINO_DEF_N - 1);
 
 	tetromino_spawn(&mino, next, &level);
 
@@ -82,10 +82,10 @@ void mainloop()
 		process_input(frame_start);
 
 		if (frame_start > last_fall_tick + fall_speed) {
-			if (lvl_move_current(&level, 0, 1)) {
+			if (lvl_move_current(&level, 0, DIR_DOWN)) {
 				lvl_add_tetromino(&level);
 
-				next = rng_randint(0, 6);
+				next = rng_randint(0, MINO_DEF_N - 1);
 				if (tetromino_spawn(&mino, next, &level) > 0) {
 					quit = 1;
 				}

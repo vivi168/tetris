@@ -6,19 +6,25 @@
 #define MINO_DEF_N 7
 #define MINO_DEF_SIZ 2
 
-#define I_MINO 0
-#define O_MINO 1
-#define J_MINO 2
-#define L_MINO 3
-#define S_MINO 4
-#define T_MINO 5
-#define Z_MINO 6
+typedef enum mino_type_t {
+	I_MINO = 0,
+	O_MINO,
+	J_MINO,
+	L_MINO,
+	S_MINO,
+	T_MINO,
+	Z_MINO,
+} MinoType;
 
 #define MINO_N 19
 #define MINO_SIZ 4
 
 #define CLOCKWISE 1
 #define COUNTER_CLOCKWISE (-1)
+
+#define DIR_DOWN 1
+#define DIR_LEFT (-1)
+#define DIR_RIGHT 1
 
 typedef struct tetromino_t {
 	int type;
