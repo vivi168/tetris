@@ -10,24 +10,49 @@
 int quit;
 Level level;
 
-void process_input()
-{
-    if (iptm_quit_requested() || iptm_is_pressed(KEY_TRIANGLE)) {
-        printf("[INFO]: quit requested\n");
-        quit = TRUE;
-    }
+#define MOVE_SPEED 100
+#define ACCEL_FALL_SPEED 75
 
-	if (iptm_is_pressed(KEY_CIRCLE) || iptm_is_pressed(KEY_DOWN)) {
+uint32_t last_moved;
+int fall_speed;
+
+void process_input(uint32_t frame_start)
+{
+	if (iptm_quit_requested() || iptm_is_pressed(KEY_TRIANGLE)) {
+		printf("[INFO]: quit requested\n");
+		quit = TRUE;
+	}
+
+	if (iptm_is_held(KEY_DOWN)) {
+		fall_speed = ACCEL_FALL_SPEED;
+	}
+	else {
+		fall_speed = level.speed;
+	}
+
+	if (iptm_is_pressed(KEY_CIRCLE) || iptm_is_pressed(KEY_UP)) {
 		tetromino_rotate(level.current_tetromino, &level, CLOCKWISE);
 	}
-	else if (iptm_is_pressed(KEY_CROSS) || iptm_is_pressed(KEY_UP)) {
+	else if (iptm_is_pressed(KEY_CROSS)) {
 		tetromino_rotate(level.current_tetromino, &level, COUNTER_CLOCKWISE);
 	}
-	else if (iptm_is_pressed(KEY_LEFT)) {
+
+	if (iptm_is_pressed(KEY_LEFT)) {
 		lvl_move_current(&level, -1, 0);
+		last_moved = frame_start;
 	}
 	else if (iptm_is_pressed(KEY_RIGHT)) {
 		lvl_move_current(&level, 1, 0);
+		last_moved = frame_start;
+	}
+
+	if (iptm_is_held(KEY_LEFT) && (frame_start > last_moved + MOVE_SPEED)) {
+		lvl_move_current(&level, -1, 0);
+		last_moved = frame_start;
+	}
+	else if (iptm_is_held(KEY_RIGHT) && (frame_start > last_moved + MOVE_SPEED)) {
+		lvl_move_current(&level, 1, 0);
+		last_moved = frame_start;
 	}
 }
 
@@ -46,14 +71,17 @@ void mainloop()
 
 	quit = 0;
 	last_fall_tick = 0;
+	last_moved = 0;
+
+	fall_speed = level.speed;
 
 	while (!quit) {
 		frame_start = rdr_getticks();
 
 		iptm_poll_events();
-		process_input();
+		process_input(frame_start);
 
-		if (frame_start > last_fall_tick + level.speed) {
+		if (frame_start > last_fall_tick + fall_speed) {
 			if (lvl_move_current(&level, 0, 1)) {
 				lvl_add_tetromino(&level);
 
@@ -63,6 +91,9 @@ void mainloop()
 				}
 
 				level.current_tetromino = &mino;
+			}
+			else {
+				level.score++;
 			}
 
 			lvl_flag_lines(&level);
