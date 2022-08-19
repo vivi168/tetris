@@ -18,39 +18,39 @@ int fall_speed;
 
 void process_input(uint32_t frame_start)
 {
-	if (iptm_quit_requested() || iptm_is_pressed(KEY_TRIANGLE)) {
+	if (inpmgr_quit_requested() || inpmgr_is_pressed(KEY_TRIANGLE)) {
 		printf("[INFO]: quit requested\n");
 		quit = TRUE;
 	}
 
-	if (iptm_is_held(KEY_DOWN)) {
+	if (inpmgr_is_held(KEY_DOWN)) {
 		fall_speed = ACCEL_FALL_SPEED;
 	}
 	else {
 		fall_speed = level.speed;
 	}
 
-	if (iptm_is_pressed(KEY_CIRCLE) || iptm_is_pressed(KEY_UP)) {
+	if (inpmgr_is_pressed(KEY_CIRCLE) || inpmgr_is_pressed(KEY_UP)) {
 		tetromino_rotate(level.current_tetromino, &level, CLOCKWISE);
 	}
-	else if (iptm_is_pressed(KEY_CROSS)) {
+	else if (inpmgr_is_pressed(KEY_CROSS)) {
 		tetromino_rotate(level.current_tetromino, &level, COUNTER_CLOCKWISE);
 	}
 
-	if (iptm_is_pressed(KEY_LEFT)) {
+	if (inpmgr_is_pressed(KEY_LEFT)) {
 		lvl_move_current(&level, -1, 0);
 		last_moved = frame_start;
 	}
-	else if (iptm_is_pressed(KEY_RIGHT)) {
+	else if (inpmgr_is_pressed(KEY_RIGHT)) {
 		lvl_move_current(&level, 1, 0);
 		last_moved = frame_start;
 	}
 
-	if (iptm_is_held(KEY_LEFT) && (frame_start > last_moved + MOVE_SPEED)) {
+	if (inpmgr_is_held(KEY_LEFT) && (frame_start > last_moved + MOVE_SPEED)) {
 		lvl_move_current(&level, -1, 0);
 		last_moved = frame_start;
 	}
-	else if (iptm_is_held(KEY_RIGHT) && (frame_start > last_moved + MOVE_SPEED)) {
+	else if (inpmgr_is_held(KEY_RIGHT) && (frame_start > last_moved + MOVE_SPEED)) {
 		lvl_move_current(&level, 1, 0);
 		last_moved = frame_start;
 	}
@@ -78,7 +78,7 @@ void mainloop()
 	while (!quit) {
 		frame_start = rdr_getticks();
 
-		iptm_poll_events();
+		inpmgr_poll_events();
 		process_input(frame_start);
 
 		if (frame_start > last_fall_tick + fall_speed) {
@@ -114,7 +114,7 @@ int main(int argc, char** argv)
 	rng_seed(1);
 
 	rdr_init();
-	iptm_init();
+	inpmgr_init();
 
 	lvl_init(&level);
 

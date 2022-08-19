@@ -4,7 +4,7 @@
 
 InputManager input_manager;
 
-void iptm_update()
+void inpmgr_update()
 {
     SDL_Event event;
 
@@ -81,30 +81,30 @@ void iptm_update()
     input_manager.old_keystate = input_manager.new_keystate;
 }
 
-void iptm_init()
+void inpmgr_init()
 {
     input_manager.quit = FALSE;
     input_manager.new_keystate = 0;
     input_manager.old_keystate = 0;
 }
 
-void iptm_poll_events()
+void inpmgr_poll_events()
 {
-    iptm_update();
+    inpmgr_update();
 }
 
-int iptm_quit_requested() {
+int inpmgr_quit_requested() {
     return input_manager.quit;
 }
 
-int iptm_is_held(int k) {
+int inpmgr_is_held(int k) {
     return (1 << k) & input_manager.keys_held;
 }
 
-int iptm_is_pressed(int k) {
+int inpmgr_is_pressed(int k) {
     return (1 << k) & input_manager.keys_pressed;
 }
 
-int iptm_is_released(int k) {
+int inpmgr_is_released(int k) {
     return (1 << k) & input_manager.keys_released;
 }

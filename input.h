@@ -20,12 +20,12 @@ typedef struct input_manager_t {
     unsigned int keys_pressed, keys_held, keys_released;
 } InputManager;
 
-void iptm_init();
-void iptm_update();
-void iptm_poll_events();
-int iptm_quit_requested();
-int iptm_is_held(int);
-int iptm_is_pressed(int);
-int iptm_is_released(int);
+void inpmgr_init();
+void inpmgr_update();
+void inpmgr_poll_events();
+int inpmgr_quit_requested();
+int inpmgr_is_held(int);
+int inpmgr_is_pressed(int);
+int inpmgr_is_released(int);
 
 #endif
